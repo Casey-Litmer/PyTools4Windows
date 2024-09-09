@@ -1,0 +1,37 @@
+
+
+
+
+* Add json support... %100  DONE
+
+* Add mode switching
+
+* Add command history
+
+* Add comments/function docs
+
+
+
+
+* Is it possible to run the compiler from the PATH?
+
+
+
+PATH --> Compiler(mode, json, meta)
+ ref  ^      func w/ args               ~dependency and reference of
+  ^   :                 ^
+  | <.:.dependency~...> |
+  |   V              $  |
+venv  --> (Compiler -> "*.json" "meta.json")           $contains refs in the code
+ env        script has paths
+  |                     |
+  |   <...............> |
+  V            :        V
+   dir         V         files                       files
+Program Files --> (Compiler, json, meta)   <==>   Compiler  <--> json
+     |     subfolder  |                             ^
+     |                | evaluation                  | same folder
+     V                V                             V
+PATH --> Compiler(json, meta) mode                 meta
+
+

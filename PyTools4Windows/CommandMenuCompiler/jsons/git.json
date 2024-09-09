@@ -1,0 +1,46 @@
+{
+    "[g]git": {
+        "[i]init": [],
+        "[s]status": [],
+        "[a]add": {
+            "[.].": [],
+            "[x]": "{path}"
+        },
+        "[r]remote": {
+            "[o]add origin": "{url}",
+            "[u]add upstream": "{url}",
+            "[v]-v#(check url)#": [],
+            "[s]set-url origin": "{new url}"
+        },
+        "[t]tag": {
+            "[v]#tag#": "{version}",
+            "[d]-d #(delete tag)#": "{version}",
+            "[x]#(list tags)#": []
+        },
+        "[b]branch": {
+            "[x]#(new branch)#": "{new branch}",
+            "[s]#(show branches)#": [],
+            "[m]-M#(rename current branch)#": "{new name}"
+        },
+        "[k]checkout": {
+            "[x]#(switch branch)#": "{branch}",
+            "[b]-b #(create new branch)#": "{new branch}"
+        },
+        "[h]push": {
+            "[x]": [],
+            "[u]-u origin": "{branch}",
+            "[o]origin": {
+                "[x]": "{branch}",
+                "[v]v": "{version}"
+            }
+        },
+        "[l]pull": {
+            "[o]origin": "{branch}"
+        },
+        "[c]commit -m": "r{message}",
+        "[m]rm --cached":{
+            "[r]-r .#(remove all)#": [],
+            "[x]#(remove one)#": "{path}"
+        }
+    }
+}

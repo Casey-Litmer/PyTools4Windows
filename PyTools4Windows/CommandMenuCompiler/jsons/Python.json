@@ -1,0 +1,18 @@
+{
+  "[y]python": {
+    "[s]setup.py": {
+      "[s]sdist": {
+        "[x]": [],
+        "[w]bdist_wheel": [],
+        "[b]bdist": []
+      },
+      "[i]install": [],
+      "[c]clean": {
+        "[x]": [],
+        "[a]--all": []
+      },
+      "[k]check": [],
+      "[d]develop": []
+    }
+  }
+}

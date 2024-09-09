@@ -1,0 +1,6 @@
+{
+    "[t]twine": {
+        "[c]check dist/*": [],
+        "[u]upload dist/*": []
+    }
+}

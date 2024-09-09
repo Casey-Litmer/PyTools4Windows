@@ -1,0 +1,7 @@
+{
+  "[p]pip": {
+    "[l]list": [],
+    "[i]install": "{package}",
+    "[u]uninstall": "{package}"
+  }
+}
