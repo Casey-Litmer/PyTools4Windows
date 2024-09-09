@@ -189,13 +189,14 @@ def inc_commands(S: dict) -> dict:
 
 def exc_commands(S: dict) -> dict:
     commands = S["commands"]
+    exclude = S["exclude"]
 
     abbr_pairs = {remove_brackets(k): k for k in commands}
 
     new = edit_list(list(abbr_pairs), name= "Exclude:", empty_message= "-*Nothing To Exclude*-")
     new = [abbr_pairs[n] for n in new]
 
-    return S | {"exclude": list_compliment(commands, new)} | {"commands": new}
+    return S | {"exclude": list_union(list_compliment(commands, new), exclude)} | {"commands": new}
 
 
 ####################################################################################################################

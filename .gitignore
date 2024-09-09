@@ -5,3 +5,5 @@ commandmenu_config.json
 Old
 
 setup.py
+
+*.pyc
