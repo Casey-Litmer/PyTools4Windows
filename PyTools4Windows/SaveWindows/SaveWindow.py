@@ -1,5 +1,5 @@
-from MenuCMD.lib.MenuCMD import Menu, yesno_ver, edit_list
-from MenuCMD import list_union
+from menucmd import Menu, yesno_ver, edit_list
+from macrolibs.typemacros import list_union
 import winreg, os
 
 

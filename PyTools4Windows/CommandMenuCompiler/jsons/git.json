@@ -31,7 +31,7 @@
             "[u]-u origin": "{branch}",
             "[o]origin": {
                 "[x]": "{branch}",
-                "[v]v": "{version}"
+                "[v]#v#": "{version}"
             }
         },
         "[l]pull": {

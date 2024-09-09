@@ -1,8 +1,8 @@
 from menucmd import Menu, Bind as B, edit_list, dynamic_wrapper
 import subprocess as sp, os, sys
 from re import sub
-from macrolib.filemacros import get_script_dir, open_json, save_json
-from macrolib.typemacros import list_compliment, list_intersect, list_union
+from macrolibs.filemacros import get_script_dir, open_json, save_json
+from macrolibs.typemacros import list_compliment, list_intersect, list_union
 from default_struct import DEFAULT_STRUCT
 
 

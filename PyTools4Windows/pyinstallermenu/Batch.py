@@ -1,7 +1,7 @@
 import subprocess as sp, os
 from menucmd import Menu, yesno_ver
-from macrolib.filemacros import get_script_dir, full_walk, open_json, save_json
-from macrolib.typemacros import list_union
+from macrolibs.filemacros import get_script_dir, full_walk, open_json, save_json
+from macrolibs.typemacros import list_union
 
 
 DIR = get_script_dir()
