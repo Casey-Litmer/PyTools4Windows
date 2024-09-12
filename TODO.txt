@@ -1,0 +1,15 @@
+
+
+* Finish commandmenu readme
+
+* Address all comments
+
+* Create heirarchical setup.py files
+
+
+* __init__.py files
+ - how to reuse menu scripts as a library?
+
+
+* exe install
+  - via pip?
