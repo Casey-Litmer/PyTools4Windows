@@ -122,8 +122,6 @@ def batch(inc_dependencies = False) -> None:
 
 
 
-def batch_another_script():
-    return yesno_ver(yes=None, no=Menu.__END__, name="Batch Another Script?")
 
 #----------------------------------------------------------------------------------------------------------------------
 
