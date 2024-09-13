@@ -28,12 +28,12 @@ result = Menu.result
 
 def main():
     #Menu definitions
-    main_menu = Menu(name = "main", arg_to= dynamic_wrapper(dyn_arg_to))
+    main_menu = Menu(name = "Commands", arg_to= dynamic_wrapper(dyn_arg_to))
     settings_menu = Menu(name = "Settings", exit_to= Menu.id)
     memory_menu = Menu(name = "Memory", exit_to= B(main_menu, []), end_to= Menu.exit_to)
 
     #Memory manager function (attributed to main_menu)
-    main_menu.add_mem = lambda cmd: update_memory(memory_menu, cmd, length = 6)
+    main_menu.add_mem = lambda cmd: update_memory(memory_menu, cmd)
     update_memory(memory_menu, [])
 
     #Main Menu
@@ -49,7 +49,8 @@ def main():
     #Settings Menu
     settings_menu.append(
         ("i", "include commands", (inc_commands, result[0])),
-        ("x", "exclude commands", (exc_commands, result[0]))
+        ("x", "exclude commands", (exc_commands, result[0])),
+        ("m", "change memory length", (change_memory_length, result[0]))
     )
 
     #Run main_menu
@@ -119,7 +120,6 @@ def struct_to_items(S: dict, add_mem, **kwargs) -> tuple:
     return tuple(map(format_to_item, S))
 
 
-
 #----------------------------------------------------------------------------------------------------------------------
 #Collect all non-excluded json and return full struct.  Save config.json
 def get_struct() -> dict:
@@ -158,9 +158,10 @@ def dyn_arg_to(menu, arg):
     return arg
 
 
-def update_memory(menu: Menu, command: list[str], length = 6) -> None:
+def update_memory(menu: Menu, command: list[str]) -> None:
     #Get saved memory
     sett = open_json(CONFIG_PATH, DEFAULT_STRUCT)
+    length = int(sett["memory length"])
     L = sett["memory"]
     L = list_union([command], L)[:length] if command else L
 
@@ -175,6 +176,7 @@ def update_memory(menu: Menu, command: list[str], length = 6) -> None:
     sett["memory"] = L
     save_json(sett, CONFIG_PATH)
 
+
 #---------------------------------------------------------------------------------------------------------------------
 
 def inc_commands(S: dict) -> dict:
@@ -187,6 +189,7 @@ def inc_commands(S: dict) -> dict:
 
     return S | {"exclude": new}
 
+
 def exc_commands(S: dict) -> dict:
     commands = S["commands"]
     exclude = S["exclude"]
@@ -198,7 +201,18 @@ def exc_commands(S: dict) -> dict:
 
     return S | {"exclude": list_union(list_compliment(commands, new), exclude)} | {"commands": new}
 
+def change_memory_length(S: dict) -> dict:
+    print("Memory Length: ", S["memory length"])
 
+    while True:
+        try:
+            new_length = int(input("New Length: "))
+            break
+        except TypeError:
+            print("length must be an integer!")
+
+    print(S["memory"][:new_length])
+    return S | {"memory length":new_length} | {"memory":S["memory"][:new_length]}
 ####################################################################################################################
 
 if __name__ == "__main__":

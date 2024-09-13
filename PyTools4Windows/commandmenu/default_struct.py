@@ -1,5 +1,6 @@
 DEFAULT_STRUCT = {
     "exclude": [],
     "commands": [],
-    "memory": []
+    "memory": [],
+    "memory length": 6
 }

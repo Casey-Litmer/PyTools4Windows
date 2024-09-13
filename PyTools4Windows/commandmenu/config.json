@@ -1,0 +1,1 @@
+{"exclude": [], "commands": ["[g]git", "[p]pip", "[y]python", "[t]twine"], "memory": [["git", "branch"]], "memory length": 2}
