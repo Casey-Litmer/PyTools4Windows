@@ -1,10 +1,10 @@
 {
-    "[g]git": {
+    "[g] git": {
         "[i]init": [],
         "[s]status": [],
         "[a]add": {
-            "[.].": [],
-            "[x]": "{path}"
+            "[.]. #(add all)#": [],
+            "[x]#(add path)#": "{path}"
         },
         "[r]remote": {
             "[o]add origin": "{url}",
@@ -15,7 +15,7 @@
         "[t]tag": {
             "[v]#tag#": "{version}",
             "[d]-d #(delete tag)#": "{version}",
-            "[x]#(list tags)#": []
+            "[s]#(show tags)#": []
         },
         "[b]branch": {
             "[x]#(new branch)#": "{new branch}",
@@ -27,17 +27,17 @@
             "[b]-b #(create new branch)#": "{new branch}"
         },
         "[h]push": {
-            "[x]": [],
-            "[u]-u origin": "{branch}",
+            "[x]#(push current branch)#" : [],
             "[o]origin": {
-                "[x]": "{branch}",
+                "[x]#(push branch)#": "{branch}",
                 "[v]#v#": "{version}"
-            }
+            },
+            "[u]-u origin #(set upstream)#": "{branch}"
         },
         "[l]pull": {
             "[o]origin": "{branch}"
         },
-        "[c]commit -m": "r{message}",
+        "[c]commit -m": "{message}",
         "[m]rm --cached":{
             "[r]-r .#(remove all)#": [],
             "[x]#(remove one)#": "{path}"

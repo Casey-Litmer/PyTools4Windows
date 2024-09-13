@@ -4,6 +4,8 @@
 
 * Address all comments
 
+* Comment everything that is not commented!
+
 * Create heirarchical setup.py files
 
 
@@ -13,3 +15,9 @@
 
 * exe install
   - via pip?
+
+
+
+
+* Is there a better, less convoluted way of coding commandmenu?
+  the memory process is kindof spaghetti-y

@@ -29,7 +29,7 @@ result = Menu.result
 def main():
     #Menu definitions
     main_menu = Menu(name = "Commands", arg_to= dynamic_wrapper(dyn_arg_to))
-    settings_menu = Menu(name = "Settings", exit_to= Menu.id)
+    settings_menu = Menu(name = "Settings", exit_to= main_menu, end_to= Menu.exit_to)
     memory_menu = Menu(name = "Memory", exit_to= B(main_menu, []), end_to= Menu.exit_to)
 
     #Memory manager function (attributed to main_menu)
@@ -37,20 +37,19 @@ def main():
     update_memory(memory_menu, [])
 
     #Main Menu
-    main_menu.append(("$", "Settings", (
-                            open_json, (CONFIG_PATH, DEFAULT_STRUCT),
-                            settings_menu, result,
-                            save_json, (result, CONFIG_PATH),
-                            )),
+    main_menu.append(("$", "Settings", (settings_menu, ())),
                             ("#", "Memory", (memory_menu, ()))
                             #(Other items appended via arg_to)
                      )
 
     #Settings Menu
     settings_menu.append(
-        ("i", "include commands", (inc_commands, result[0])),
-        ("x", "exclude commands", (exc_commands, result[0])),
-        ("m", "change memory length", (change_memory_length, result[0]))
+        ("i", "Include Commands", (inc_commands, ())),
+        ("x", "Exclude Commands", (exc_commands, ())),
+        ("m", "Change Memory Length", (
+            change_memory_length, (),
+            update_memory, (memory_menu, [])
+        ))
     )
 
     #Run main_menu
@@ -88,7 +87,7 @@ def struct_to_items(S: dict, add_mem, **kwargs) -> tuple:
 
         #Ask for input and run
         elif isinstance(v, str):
-            q = v[0] == "r"
+            q = 0 #q = v[0] == "r"  #this might be necessary (test later)
             return (input, v.strip("r"),                                      #get user input
                     lambda s:q*"\""+ s +"\""*q, result,                       #add quotes if not 'r' string
                     Menu.id, B(append_user_input, result[1], result),   #append to command
@@ -148,6 +147,9 @@ def get_struct() -> dict:
 
 #Updates main_menu items on arg_to.  Passes arg.
 def dyn_arg_to(menu, arg):
+    menu.add_mem([])    #Do this to update any changes in the memory length.  Kind of spaghetti-y, I know.
+                        #Maybe separate concerns by adding json_open/json_save into the settings menu functions themselves
+                        #instead of having them accept and return dict.
     menu.delete(2, len(menu.menu_item_list) - 1)
 
     struct = get_struct()
@@ -179,40 +181,52 @@ def update_memory(menu: Menu, command: list[str]) -> None:
 
 #---------------------------------------------------------------------------------------------------------------------
 
-def inc_commands(S: dict) -> dict:
-    exclude = S["exclude"]
+def inc_commands() -> None:
+    sett = open_json(CONFIG_PATH, DEFAULT_STRUCT)
+    exclude = sett["exclude"]
 
     abbr_pairs = {remove_brackets(k):k for k in exclude}
 
     new = edit_list(list(abbr_pairs), name= "Include:", empty_message= "-*Nothing To Include*-")
     new = [abbr_pairs[n] for n in new]
 
-    return S | {"exclude": new}
+    sett["exclude"] = new
+    save_json(sett, CONFIG_PATH)
 
 
-def exc_commands(S: dict) -> dict:
-    commands = S["commands"]
-    exclude = S["exclude"]
+def exc_commands() -> None:
+    sett = open_json(CONFIG_PATH, DEFAULT_STRUCT)
+    commands = sett["commands"]
+    exclude = sett["exclude"]
 
     abbr_pairs = {remove_brackets(k): k for k in commands}
 
     new = edit_list(list(abbr_pairs), name= "Exclude:", empty_message= "-*Nothing To Exclude*-")
     new = [abbr_pairs[n] for n in new]
 
-    return S | {"exclude": list_union(list_compliment(commands, new), exclude)} | {"commands": new}
+    sett["exclude"] = list_union(list_compliment(commands, new), exclude)
+    sett["commands"] = new
 
-def change_memory_length(S: dict) -> dict:
-    print("Memory Length: ", S["memory length"])
+    save_json(sett, CONFIG_PATH)
 
-    while True:
+
+def change_memory_length() -> None:
+    sett = open_json(CONFIG_PATH, DEFAULT_STRUCT)
+    length = sett["memory length"]
+    print("Memory Length: ", length)
+
+    while new_length := input("New Length: ").strip():
         try:
-            new_length = int(input("New Length: "))
+            length = int(new_length)
             break
-        except TypeError:
-            print("length must be an integer!")
+        except ValueError:
+            print("length must be an integer")
 
-    print(S["memory"][:new_length])
-    return S | {"memory length":new_length} | {"memory":S["memory"][:new_length]}
+    sett["memory length"] = length
+    sett["memory"] = sett["memory"][:length]
+    save_json(sett, CONFIG_PATH)
+
+
 ####################################################################################################################
 
 if __name__ == "__main__":
