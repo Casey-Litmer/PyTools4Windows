@@ -1,14 +1,13 @@
+# PathMenu
+
 ```
 pip install pytools4windows.pathmenu
 ```
 
 Menu interface for changing the PATH environment variable.
 
-
-
-## Main Menu
-
 -------
+## Main Menu
 
 ```commandline
 Edit PATH
@@ -25,10 +24,9 @@ Edit the PATH for the current user only
 
 Edit the PATH for the whole system
 
-
+-------
 ## Path Menu
 
--------
 ```commandline
 Edit {User/System} Path
 [p]- Show PATH

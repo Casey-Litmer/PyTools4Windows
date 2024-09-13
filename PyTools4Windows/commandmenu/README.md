@@ -12,10 +12,9 @@ terminal commands in your development environment.
 ***Command Struct Tutorial*** \
 https://github.com/Casey-Litmer/PyTools4Windows/blob/main/PyTools4Windows/commandmenu/Command%20Struct%20Tutorial.md
 
-
+-------
 ## Main Menu
 
--------
 
 
 ```commandline
@@ -35,9 +34,9 @@ Run past commands stored in memory.
 ### [x] Command Menus
 Run a command starting from its base subcommand.
 
-## Settings Menu
 
 --------
+## Settings Menu
 
 ```commandline
 Settings
@@ -75,10 +74,8 @@ Memory Length:  6
 New Length: 
 ```
 
-
-## Memory Menu
-
 ---------
+## Memory Menu
 
 Shows all past commands run by the user up to `memory length`.  
 
@@ -91,9 +88,8 @@ Memory
 [e]- exit
 ```
 
-## Command Menus
-
 ------------
+## Command Menus
 
 Each selection will open a new menu with all listed sub commands and string them together until
 * a full command is reached
@@ -150,10 +146,9 @@ git push origin
 
 Each partial subcommand sequence is displayed above the next action as if then user was typing it themselves.
 
-
+------
 ## Local Mode
 
-------
 
 All settings will be saved in a config file next to commandmenu.py or commandmenu.exe by default
 ```commandline

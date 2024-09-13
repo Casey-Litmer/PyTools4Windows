@@ -17,10 +17,9 @@ commandmenu/
 This short tutorial will help you to create your own toolkits for commonly used commands!
 
 
-
+------
 ## Basic Format
 
-------
 
 Each dictionary *key* is composed of 
 - a menu **key** in [brackets] *

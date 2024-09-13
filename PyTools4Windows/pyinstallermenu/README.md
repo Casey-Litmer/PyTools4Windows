@@ -1,16 +1,12 @@
+# PyInstallerMenu
 ```
 pip install pytools4windows.pyinstallermenu
 ```
 
-
-Menu interface for pyinstaller with custom dependency file structure matching.
-
-
-
-## Main Menu
+Menu interface for pyinstaller with custom dependency copying.
 
 -------
-
+## Main Menu
 
 ```commandline
 PyInstaller
@@ -30,9 +26,9 @@ Open the saved `Working Directory` in explorer
 ### [d] Open Output Directory
 Open the saved `Output Directory` in explorer
 
+-------
 ## Batch Menu
 
--------
 ```commandline
 Batch
 [b]- Batch
@@ -84,9 +80,8 @@ For example:
 
 ***Dependencies outside of the `Working Directory` will not work!***
 
+-------
 ## Settings Menu
-
---------
 
 Opening settings will automatically generate a config file with the `cwd` as the `Working Directory` and 
 the `Output Directory`.
