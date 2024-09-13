@@ -1,23 +1,16 @@
+# CommandMenu
+
 ```
 pip install pytools4windows.commandmenu
 ```
 
-Menu interface for building modular command-line toolkits.
+Menu interface for building modular command-line toolkits.  Converts json datastructures into nested menus that append 
+subcommands together to run in terminal. 
+This allows for much faster navigation of commonly used
+terminal commands in your development environment.
 
-## Local Mode
-
-------
-
-All settings will be saved in a config file next to commandmenu.py or commandmenu.exe by default
-```commandline
-#Run script
-python commandmenu.py local
-
-#Run exe
-commandmenu.exe local
-```
-Run `commandmenu` with argument `local` to initialize a new config file in the current working directory. \
-***All settings and memory will be relative to this run location.***
+***Command Struct Tutorial*** \
+https://github.com/Casey-Litmer/PyTools4Windows/blob/main/PyTools4Windows/commandmenu/Command%20Struct%20Tutorial.md
 
 
 ## Main Menu
@@ -158,3 +151,17 @@ git push origin
 Each partial subcommand sequence is displayed above the next action as if then user was typing it themselves.
 
 
+## Local Mode
+
+------
+
+All settings will be saved in a config file next to commandmenu.py or commandmenu.exe by default
+```commandline
+#Run script
+python commandmenu.py local
+
+#Run exe
+commandmenu.exe local
+```
+Run `commandmenu` with argument `local` to initialize a new config file in the current working directory. \
+***All settings and memory will be relative to this run location.***
