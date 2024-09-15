@@ -37,10 +37,11 @@
         "[l]pull": {
             "[o]origin": "{branch}"
         },
+        "[m]merge": "{branch}",
         "[c]commit -m": "{message}",
-        "[m]rm --cached":{
-            "[r]-r .#(remove all)#": [],
-            "[x]#(remove one)#": "{path}"
+        "[R]rm --cached":{
+            "[r]-r . #(remove all)#": [],
+            "[x]-r #(remove one)#": "{path}"
         }
     }
 }

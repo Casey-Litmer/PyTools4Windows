@@ -1,4 +1,11 @@
 
+
+* add ability for sequential user input strings
+
+* add ability to prompt list editing via menucmd
+
+
+
 X* Add json support... %100  DONE
 
 X* Add mode switching
@@ -6,9 +13,6 @@ X* Add mode switching
 X* Add command history
 
 X* Add comments/function docs
-
-
-
 
 X* Is it possible to run the compiler from the PATH?
 
@@ -31,5 +35,7 @@ Program Files --> (Compiler, json, meta)   <==>   Compiler  <--> json
      |                | evaluation                  | same folder
      V                V                             V
 PATH --> Compiler(json, meta) mode                 meta
+
+
 
 
