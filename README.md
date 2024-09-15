@@ -7,7 +7,7 @@ Use pyinstallermenu on all scripts and install to **C:\Users\{username}\PyTools4
 
 Then use pathmenu and add **"C:\Users\{username}\PyTools4Windows\*"**
 
-
+ 
 \
 TODO: 
 - Standard exe install via pip 
