@@ -4,15 +4,15 @@ from macrolibs.filemacros import get_script_dir, full_walk, open_json, save_json
 from macrolibs.typemacros import list_union
 
 
+#Get script run location and config path
 DIR = get_script_dir()
-
 CONFIG_PATH = os.path.join(os.path.abspath(DIR), "config.json")
 DEFAULT_CONFIG = {"outpath":os.getcwd(), "cwd":os.getcwd()}
 
 
-def main():
-    result = Menu.result
+result = Menu.result
 
+def main():
     main_menu = Menu(name= "PyInstaller")
     settings_menu = Menu(name= "Settings", exit_to= main_menu, end_to= Menu.exit_to, arg_to= show_dirs)
     batch_menu = Menu(name= "Batch", exit_to= main_menu, end_to= Menu.exit_to)
@@ -51,8 +51,8 @@ def main():
 
 #----------------------------------------------------------------------------------------------------------------------
 
-#Batch a script
 def batch(inc_dependencies = False) -> None:
+    """Batch a script with or without dependencies"""
     #Open config
     config = open_json(CONFIG_PATH, DEFAULT_CONFIG)
     outpath = config["outpath"]
@@ -125,8 +125,8 @@ def batch(inc_dependencies = False) -> None:
 
 #----------------------------------------------------------------------------------------------------------------------
 
-#arg_to for settings
 def show_dirs() -> dict:
+    """arg_to for settings menu.  Takes None, prints directories and returns config struct."""
     config = open_json(CONFIG_PATH, DEFAULT_CONFIG)
     print(f"Working Directory: {config["cwd"]}")
     print(f"Output Directory: {config["outpath"]}")
@@ -136,6 +136,7 @@ def show_dirs() -> dict:
 
 #Update config
 def change_dir(config: dict, key: str) -> None:
+    """Update config paths.  Takes the config struct and stores the user input into the corresponding key."""
     print("('cwd' for current directory)")
     new_dir = input({"cwd":"Working Directory: ", "outpath":"Output Directory: "}[key])
     new_dir = os.getcwd() if new_dir.strip() == "cwd" else new_dir

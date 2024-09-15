@@ -1,20 +1,18 @@
 
+X* Add json support... %100  DONE
 
+X* Add mode switching
 
+X* Add command history
 
-* Add json support... %100  DONE
-
-* Add mode switching
-
-* Add command history
-
-* Add comments/function docs
+X* Add comments/function docs
 
 
 
 
-* Is it possible to run the compiler from the PATH?
+X* Is it possible to run the compiler from the PATH?
 
+   YES!
 
 
 PATH --> Compiler(mode, json, meta)

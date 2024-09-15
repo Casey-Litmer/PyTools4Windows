@@ -3,7 +3,7 @@ from macrolibs.typemacros import list_union
 import os, winreg as reg, ctypes
 
 
-
+#Registry locations
 MODES = {
         "user":(reg.HKEY_CURRENT_USER, r"Environment"),
         "sys":(reg.HKEY_LOCAL_MACHINE, r"SYSTEM\CurrentControlSet\Control\Session Manager\Environment")
@@ -13,7 +13,6 @@ MODES = {
 result = Menu.result
 
 def main():
-
     main_menu = Menu(name = "Edit PATH")
     path_menu = Menu(arg_to = dynamic_wrapper(change_name))
 
@@ -39,13 +38,12 @@ def main():
             list_union, (result[1], result[2]),
             set_path, (result, result[0])
         ))
-
     )
-
 
     main_menu()
 
 
+#main_menu arg_to changes name based on mode
 def change_name(menu_id, arg):
     menu_id.name = "Edit " + {"sys":"System","user":"User"}[arg] + " Path"
     return arg
@@ -54,6 +52,9 @@ def change_name(menu_id, arg):
 #---------------------------------------------------------------------------------------------------------------------
 
 def get_path(mode: str) -> list:
+    """Returns a list of directories in the PATH variable from the registry.
+    'mode' toggles registry location between user and system.
+    """
     reg_key, paths = None, []
 
     #Change Mode
@@ -78,13 +79,11 @@ def get_path(mode: str) -> list:
     if "" in paths:
         paths.remove("")
 
-    #Remove all duplicates (keeps order)
-    #paths = list_union([[x] for x in paths])
-
     return paths if paths else Menu.escape
 
 
 def show_path(paths: list) -> None:
+    """prints list of directories and PATH"""
     print("\n")
     for i in paths:
         print(i)
@@ -92,6 +91,7 @@ def show_path(paths: list) -> None:
 
 
 def set_path(paths: list, mode: str) -> None:
+    """Writes a list of directories to registry PATH variable"""
     #Remove all duplicates (keeps order)
     paths = list_union([[x] for x in paths])
 
@@ -118,16 +118,25 @@ def set_path(paths: list, mode: str) -> None:
 
 
 def add_paths() -> list:
+    """Prompts user for directories to add and returns the list.
+    'cwd' for current directory
+    '..\*' for sub directories
+    """
     new_paths = []
 
     print("\n(* for all immediate subdirectories) (non-recursive)")
     print("('cwd' for current directory)")
 
     while new_path := input("New Path: "):
+        #current directory
         if new_path.strip() == "cwd":
             new_paths.append(os.getcwd())
+
+        #sub directories
         elif new_path[-1] == "*":
             new_paths += [os.path.join(new_path[:-1], path) for path in os.listdir(new_path[:-1])]
+
+        #add single path
         else:
             new_paths.append(new_path)
 
@@ -135,7 +144,7 @@ def add_paths() -> list:
 
 
 def notify_environment_change() -> None:
-    # Broadcasts the WM_SETTINGCHANGE message to notify the system
+    """Broadcasts the WM_SETTINGCHANGE message to notify the system"""
     HWND_BROADCAST = 0xFFFF
     WM_SETTINGCHANGE = 0x1A
     SMTO_ABORTIFHUNG = 0x0002

@@ -1,6 +1,6 @@
 
 
-* Finish commandmenu readme
+X* Finish commandmenu readme
 
 * Address all comments
 
@@ -19,5 +19,7 @@
 
 
 
-* Is there a better, less convoluted way of coding commandmenu?
+X* Is there a better, less convoluted way of coding commandmenu?
   the memory process is kindof spaghetti-y
+
+  No, suck it

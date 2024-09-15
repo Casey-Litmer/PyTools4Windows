@@ -27,7 +27,6 @@ if mode == "local":
 result = Menu.result
 
 def main():
-    #Menu definitions
     main_menu = Menu(name = "Commands", arg_to= dynamic_wrapper(dyn_arg_to))
     settings_menu = Menu(name = "Settings", exit_to= main_menu, end_to= Menu.exit_to)
     memory_menu = Menu(name = "Memory", exit_to= B(main_menu, []), end_to= Menu.exit_to)
@@ -36,13 +35,12 @@ def main():
     main_menu.add_mem = lambda cmd: update_memory(memory_menu, cmd)
     update_memory(memory_menu, [])
 
-    #Main Menu
+
     main_menu.append(("$", "Settings", (settings_menu, ())),
                             ("#", "Memory", (memory_menu, ()))
                             #(Other items appended via arg_to)
                      )
 
-    #Settings Menu
     settings_menu.append(
         ("i", "Include Commands", (inc_commands, ())),
         ("x", "Exclude Commands", (exc_commands, ())),
@@ -52,7 +50,6 @@ def main():
         ))
     )
 
-    #Run main_menu
     main_menu([])
 
 
@@ -64,12 +61,11 @@ remove_brackets = lambda k: k[k.index("]")+1:]
 #Removes string between #...#
 remove_comments = lambda k: sub(r"#.*?#", "", k)
 
-
 #TODO for later version:  create markdown for returning to specific menu!
 #TODO...    Also allow for chains of {"input1"} {"input2"}... etc
 
-#Convert command json structs to nested menus
 def struct_to_items(S: dict, add_mem, **kwargs) -> tuple:
+    """Convert command json structs to nested menus"""
     #Appends subcommands.  Menu comp morphism
     append_command = lambda x, xs: x + list(xs.strip().split()) * bool(xs)
     append_user_input = lambda x, xs: x + [xs.strip()] * bool(xs)
@@ -120,10 +116,15 @@ def struct_to_items(S: dict, add_mem, **kwargs) -> tuple:
 
 
 #----------------------------------------------------------------------------------------------------------------------
-#Collect all non-excluded json and return full struct.  Save config.json
+
 def get_struct() -> dict:
+    """#Collect all non-excluded json and return full struct.
+    Save config.json.  Return struct.
+    Run from 'dyn_arg_to' for dynamic menu appension
+    """
     sett = open_json(CONFIG_PATH, DEFAULT_STRUCT)
 
+    #Open all jsons
     S = {}; names = []
     for file in os.listdir(os.path.join(DIR, "jsons")):
         name = os.path.basename(file).strip("json")[:-1]             #name of file
@@ -145,13 +146,15 @@ def get_struct() -> dict:
     return S
 
 
-#Updates main_menu items on arg_to.  Passes arg.
 def dyn_arg_to(menu, arg):
+    """Updates main_menu items on run via arg_to.  Passes arg to menu command chain."""
+
     menu.add_mem([])    #Do this to update any changes in the memory length.  Kind of spaghetti-y, I know.
                         #Maybe separate concerns by adding json_open/json_save into the settings menu functions themselves
                         #instead of having them accept and return dict.
     menu.delete(2, len(menu.menu_item_list) - 1)
 
+    #Get current list of commands (updated from settings menu)
     struct = get_struct()
 
     menu.append(*struct_to_items(struct, menu.add_mem, exit_to=B(menu, []),
@@ -161,6 +164,9 @@ def dyn_arg_to(menu, arg):
 
 
 def update_memory(menu: Menu, command: list[str]) -> None:
+    """Method passed to all nested menus.  Takes a self reference, and a command to append
+    to the memory list.
+    """
     #Get saved memory
     sett = open_json(CONFIG_PATH, DEFAULT_STRUCT)
     length = int(sett["memory length"])
@@ -182,6 +188,7 @@ def update_memory(menu: Menu, command: list[str]) -> None:
 #---------------------------------------------------------------------------------------------------------------------
 
 def inc_commands() -> None:
+    """Choose which commands to include"""
     sett = open_json(CONFIG_PATH, DEFAULT_STRUCT)
     exclude = sett["exclude"]
 
@@ -195,6 +202,7 @@ def inc_commands() -> None:
 
 
 def exc_commands() -> None:
+    """Choose which commands to exclude"""
     sett = open_json(CONFIG_PATH, DEFAULT_STRUCT)
     commands = sett["commands"]
     exclude = sett["exclude"]
@@ -211,8 +219,10 @@ def exc_commands() -> None:
 
 
 def change_memory_length() -> None:
+    """Change length of memory menu"""
     sett = open_json(CONFIG_PATH, DEFAULT_STRUCT)
     length = sett["memory length"]
+
     print("Memory Length: ", length)
 
     while new_length := input("New Length: ").strip():
