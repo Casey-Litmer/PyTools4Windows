@@ -25,18 +25,18 @@ def main():
 
     path_menu.append(
         ("p", "Show PATH", (
-            get_path, result[0],
-            show_path, result
+            get_path, result.MODE,
+            show_path, result.PATH
         )),
         ("r", "Remove path from PATH", (
-            get_path, result[0],
-            edit_list, (result, Menu.kwargs(name= "Remove Paths:")),
-            set_path, (result, result[0])
+            get_path, result.MODE,
+            edit_list, (result.PATH, Menu.kwargs(name= "Remove Paths:")),
+            set_path, (result, result.MODE)
         )),
         ("a", "Add paths to PATH", (
-            get_path, result[0], add_paths, (),
-            list_union, (result[1], result[2]),
-            set_path, (result, result[0])
+            get_path, result.MODE, add_paths, (),
+            list_union, (result[1].PATH, result[2].NEW_PATHS),
+            set_path, (result, result.MODE)
         ))
     )
 
@@ -120,7 +120,7 @@ def set_path(paths: list, mode: str) -> None:
 def add_paths() -> list:
     """Prompts user for directories to add and returns the list.
     'cwd' for current directory
-    '..\*' for sub directories
+    '..\\*' for sub directories
     """
     new_paths = []
 

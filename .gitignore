@@ -6,6 +6,10 @@ Old
 
 setup.py
 
+build
+dist
+*.egg-info
+
 *.pyc
 
 */SaveWindows

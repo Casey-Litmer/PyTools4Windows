@@ -2,15 +2,26 @@
 
 X* Finish commandmenu readme
 
-* Address all comments
+X* Address all comments
 
-* Comment everything that is not commented!
+X* Comment everything that is not commented!
 
-* Create heirarchical setup.py files
+
+
+
+* Update memory not working when running command afterwards!!!
 
 
 * __init__.py files
  - how to reuse menu scripts as a library?
+            |
+            V
+      Refactor all config dependent functions to take and return a struct and use json functions in-line
+      This will allow for functions in these libraries to be used by pt4winstaller.py
+
+      A nice bit of inter-categorical code re-use :)
+
+
 
 
 * exe install

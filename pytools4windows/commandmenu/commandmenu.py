@@ -1,9 +1,8 @@
-from menucmd import Menu, Bind as B, edit_list, dynamic_wrapper
+from menucmd import Menu, Bind as B, edit_list, dynamic_wrapper, f_end
 import subprocess as sp, os, sys
 from re import sub
 from macrolibs.filemacros import get_script_dir, open_json, save_json
 from macrolibs.typemacros import list_compliment, list_intersect, list_union
-from default_struct import DEFAULT_STRUCT
 
 
 #Get mode argument
@@ -15,10 +14,17 @@ except IndexError:
 if mode not in ("global", "local"):
     raise f"{mode} not recognized"
 
-
 #Get script run location and config path
 DIR = os.path.abspath(get_script_dir())
 CONFIG_PATH = os.path.join(DIR, "config.json")
+
+#Default config
+DEFAULT_STRUCT = {
+    "exclude": [],
+    "commands": [],
+    "memory": [],
+    "memory length": 6
+}
 
 if mode == "local":
     CONFIG_PATH = os.path.join(os.getcwd(), "commandmenu_config.json")
@@ -28,7 +34,7 @@ result = Menu.result
 
 def main():
     main_menu = Menu(name = "Commands", arg_to= dynamic_wrapper(dyn_arg_to))
-    settings_menu = Menu(name = "Settings", exit_to= main_menu, end_to= Menu.exit_to)
+    settings_menu = Menu(name = "Settings", exit_to= B(main_menu, []), end_to= Menu.exit_to)
     memory_menu = Menu(name = "Memory", exit_to= B(main_menu, []), end_to= Menu.exit_to)
 
     #Memory manager function (attributed to main_menu)
@@ -90,13 +96,13 @@ def struct_to_items(S: dict, add_mem, **kwargs) -> tuple:
                     sp.run, (result),                                         #run command
                     #print, B(" ".join, result[-2]),                          #print full command (unnecessary)
                     B(lambda x: x.add_mem, Menu.self), result[-2],      #update menu memory
-                    Menu.end, ())                                             #escape_to = end_to = main_menu
+                    f_end, ())                                             #escape_to = end_to = main_menu
 
         #Run
         elif v == []:
             return (sp.run, result[1],                                        #run full command
                     B(lambda x:x.add_mem, Menu.self), result[1],        #update menu memory
-                    Menu.end, ())                                             #end chain
+                    f_end, ())                                             #end chain
 
     #Condense dict key to menu key
     def format_key(k: str) -> str:
@@ -105,10 +111,10 @@ def struct_to_items(S: dict, add_mem, **kwargs) -> tuple:
         return k[first_idx:second_idx]
 
     #Dict key to menu item
-    format_to_item = lambda x: (format_key(x), remove_brackets(x).replace("#",""), (             #key, message, (
-                                Menu.id, B(append_command, result[0],                     #append to command
+    format_to_item = lambda x: (format_key(x), remove_brackets(x).replace("#",""), (            #key, message, (
+                                append_command, (result[0].COMMAND,                             #append to command
                                             remove_comments(remove_brackets(x))),               #also remove #-# text here
-                                print, B(" ".join, result))                               #display command
+                                print, B(" ".join, result.NEW_COMMAND))                   #display command
                                 + val_behaviour(x)                                              #ad-hoc val_behaviour
                                 )                                                               #)
     #Return all items
@@ -178,7 +184,7 @@ def update_memory(menu: Menu, command: list[str]) -> None:
     menu.append(*[(str(n), " ".join(cmd), (      #[n]- 'command'
         sp.run, cmd,                             #run each command (list[str])
         update_memory, (menu, cmd),              #refresh memory list, ensures same behaviour as manual run
-        Menu.end, ()                             #
+        f_end, ()                             #
     )) for n, cmd in enumerate(L)])              #for all commands in L
 
     sett["memory"] = L
