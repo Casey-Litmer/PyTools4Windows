@@ -11,9 +11,6 @@ from .pyinstallermenu.pyinstallermenu import batch, installer, inc_dependencies,
 DEFAULT_EXE_PATH = os.path.join(os.path.expanduser("~"), "pytools4windows")
 DIR = get_script_dir()
 
-print(DIR)
-print(os.listdir(DIR))
-
 result = Menu.result
 
 def main():
@@ -40,7 +37,7 @@ def main():
 
 def get_install_location() -> str:
     path = DEFAULT_EXE_PATH
-    print("Default Install Location: ")
+    print("\nDefault Install Location: ")
     print(os.path.split(path)[0] + "\\")
 
     #Ask for different install location
@@ -58,10 +55,6 @@ def choose_installs(path: str) -> list:
 
     for _dir in os.listdir(DIR):
         full_path = os.path.join(DIR, _dir)
-
-        print("subdir: ", full_path)
-        print("isdir: ", os.path.isdir(full_path))
-        print("has init: ", os.path.isdir(full_path) and "__init__.py" in os.listdir(full_path))
 
         if os.path.isdir(full_path) and "__init__.py" in os.listdir(full_path):
             script = os.path.join(full_path, f"{_dir}.py")  #main script MUST have same name as subpackage
@@ -85,9 +78,9 @@ def batch_list(paths: list[str], outpath: str) -> list[str]:
         dependencies = []
 
         include = os.path.join(cwd, "__include__.txt")
-        print("basename: ", cwd)
+
         if os.path.exists(include):
-            print("True")
+
             with open(include, "r") as f:
                 dependencies = map(lambda x:os.path.join(cwd, x), f.readlines())
             f.close()
