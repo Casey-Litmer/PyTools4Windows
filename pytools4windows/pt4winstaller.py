@@ -2,7 +2,6 @@ from menucmd import Menu, yesno_ver, choose_items, f_switch, f_end
 import os
 from macrolibs.filemacros import get_script_dir
 from macrolibs.typemacros import list_union
-
 from .pathmenu.pathmenu import get_path, set_path, notify_environment_change
 from .pyinstallermenu.pyinstallermenu import batch, installer, inc_dependencies, open_dir
 
@@ -68,7 +67,7 @@ def choose_installs(path: str) -> list:
 
 def batch_list(paths: list[str], outpath: str) -> list[str]:
     exe_paths = []
-    #paths = []
+
     for path in paths:
         cwd = os.path.dirname(path)
         config = {"cwd":cwd, "outpath":outpath}

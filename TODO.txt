@@ -1,18 +1,24 @@
 
 
+
+
+* entry-point install
+
+* Address all comments
+
+* Comment everything that is not commented!
+
+* Refactor
+
+
+
 X* Finish commandmenu readme
 
-X* Address all comments
 
-X* Comment everything that is not commented!
-
+X* Update memory not working when running command afterwards!!!
 
 
-
-* Update memory not working when running command afterwards!!!
-
-
-* __init__.py files
+X* __init__.py files
  - how to reuse menu scripts as a library?
             |
             V
@@ -23,9 +29,6 @@ X* Comment everything that is not commented!
 
 
 
-
-* exe install
-  - via pip?
 
 
 
