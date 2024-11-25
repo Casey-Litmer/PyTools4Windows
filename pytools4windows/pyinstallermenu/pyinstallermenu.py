@@ -39,7 +39,7 @@ def main():
             escape_on, (input_script_path, ""),
             batch, (result[0].CONFIG, result.SCRIPT_PATH),
             escape_on, (result.BATCH_DATA, None),
-            installer, result.BATCH_DATA.expand()
+            installer, (result.BATCH_DATA.expand(), )
         )),
         ("d", "Batch with dependencies", (
             escape_on, (input_script_path, ""),
@@ -89,7 +89,7 @@ def batch(config: dict, script_path: str, exe_name: str | None = None) -> tuple 
     return (exe_path, exe_name, script_path)
 
 
-def installer(exe_path: str, exe_name: str, script_path: str, dependencies: list) -> None:
+def installer(exe_path: str, exe_name: str, script_path: str, dependencies: list = []) -> None:
 
     print(f"Compiling {exe_name}...")
 
